@@ -57,7 +57,8 @@ public class RunClass {
     }
 
     static List<String> uniqueCourses(Stream<Student> students) {
-        return students.map(Student::getAllCourses)
+        return students
+                .map(Student::getAllCourses)
                 .flatMap(List::stream)
                 .map(Course::getName)
                 .distinct()
@@ -65,7 +66,8 @@ public class RunClass {
     }
 
     static List<String> studentCourses(Stream<Student> students, Course SetCourse) {
-        return students.filter(student -> student.getAllCourses().stream().anyMatch(course -> course.name == SetCourse.name))
+        return students
+                .filter(student -> student.getAllCourses().stream().anyMatch(course -> course.name == SetCourse.name))
                 .map(Student::getName)
                 .collect(Collectors.toList());
     }
