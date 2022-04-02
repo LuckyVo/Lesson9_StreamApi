@@ -14,41 +14,41 @@ public class RunClass {
         List<Course> course = new ArrayList();
         Course setCourse = new Course("Информатика");
         List<Student> students = new ArrayList<>(Arrays.asList(
-                new Student("Василий", course = new ArrayList<>(Arrays.asList(
-                        new Course("Искуства"),
+                new Student("Вован", course = new ArrayList<>(Arrays.asList(
+                        new Course("Математика"),
                         new Course("Биология"),
                         new Course("География"),
                         new Course("Химия")
 
                 ))),
-                new Student("Мария", course = new ArrayList<>(Arrays.asList(
+                new Student("Петька", course = new ArrayList<>(Arrays.asList(
                         new Course("Психология"),
                         new Course("Информатика"),
                         new Course("История"),
                         new Course("Искуства")
 
                 ))),
-                new Student("Александр", course = new ArrayList<>(Arrays.asList(
+                new Student("Сашка", course = new ArrayList<>(Arrays.asList(
                         new Course("Информатика"),
                         new Course("История"),
                         new Course("Физика"),
                         new Course("Биология")
 
                 ))),
-                new Student("Алексей", course = new ArrayList<>(Arrays.asList(
+                new Student("Лёха", course = new ArrayList<>(Arrays.asList(
                         new Course("Информатика"),
                         new Course("История")
                 ))),
-                new Student("Екатерина", course = new ArrayList<>(Arrays.asList(
+                new Student("Катька", course = new ArrayList<>(Arrays.asList(
                         new Course("Информатика"),
                         new Course("История"),
                         new Course("Физика")
 
                 )))));
 
-        List<String> unique = uniqueCourses(students.stream());
-        List<String> studCourses = studentCourses(students.stream(), setCourse);
-        List<String> mostEducated = mostWanted(students.stream());
+        List<String> unique = uniqueCourses(students);
+        List<String> studCourses = studentCourses(students, setCourse);
+        List<String> mostEducated = mostWanted(students);
         System.out.println(unique);
         System.out.println(studCourses);
         System.out.println(mostEducated);
@@ -56,8 +56,8 @@ public class RunClass {
 
     }
 
-    static List<String> uniqueCourses(Stream<Student> students) {
-        return students
+    static List<String> uniqueCourses(List<Student> students) {
+        return students.stream()
                 .map(Student::getAllCourses)
                 .flatMap(List::stream)
                 .map(Course::getName)
@@ -65,15 +65,15 @@ public class RunClass {
                 .collect(Collectors.toList());
     }
 
-    static List<String> studentCourses(Stream<Student> students, Course SetCourse) {
-        return students
-                .filter(student -> student.getAllCourses().stream().anyMatch(course -> course.name == SetCourse.name))
+    static List<String> studentCourses(List<Student> students, Course setCourse) {
+        return students.stream()
+                .filter(student -> student.getAllCourses().stream().anyMatch(course -> course.name == setCourse.name))
                 .map(Student::getName)
                 .collect(Collectors.toList());
     }
 
-    static List<String> mostWanted(Stream<Student> students) {
-        return students
+    static List<String> mostWanted(List<Student> students) {
+        return students.stream()
                 .sorted(Comparator.comparingInt(o -> o.getAllCourses().size() * -1))
                 .limit(3)
                 .map(Student::getName)
